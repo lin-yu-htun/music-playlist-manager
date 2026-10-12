@@ -1,5 +1,4 @@
-
-/ ========================================
+// ========================================
 // MUSIC PLAYLIST MANAGER
 // ========================================
 
@@ -159,10 +158,7 @@ searchInput.addEventListener("input", function () {
     const title = song.title.toLowerCase();
     const artist = song.artist.toLowerCase();
 
-    return (
-      title.includes(searchText) ||
-      artist.includes(searchText)
-    );
+    return title.includes(searchText) || artist.includes(searchText);
   });
 
   // 4. Display the filtered songs
@@ -187,10 +183,7 @@ function removeSong(songId) {
     const title = song.title.toLowerCase();
     const artist = song.artist.toLowerCase();
 
-    return (
-      title.includes(searchText) ||
-      artist.includes(searchText)
-    );
+    return title.includes(searchText) || artist.includes(searchText);
   });
 
   renderPlaylist(filteredSongs);
