@@ -1,12 +1,11 @@
-// ========================================
+
+/ ========================================
 // MUSIC PLAYLIST MANAGER
 // ========================================
 
 // ========================================
 // 1. PLAYLIST DATA
 // ========================================
-
-// Our playlist is an array of song objects.
 
 let playlist = [
   {
@@ -62,7 +61,6 @@ function renderPlaylist(songs) {
   // Show empty state when there are no songs
   if (songs.length === 0) {
     emptyState.style.display = "block";
-
     return;
   }
 
@@ -80,7 +78,6 @@ function renderPlaylist(songs) {
       </div>
 
       <div class="song-info">
-
         <div class="song-title">
           ${song.title}
         </div>
@@ -88,11 +85,9 @@ function renderPlaylist(songs) {
         <div class="song-artist">
           ${song.artist}
         </div>
-
       </div>
 
       <div class="song-meta">
-
         <span class="genre">
           ${song.genre}
         </span>
@@ -103,7 +98,6 @@ function renderPlaylist(songs) {
         >
           Remove
         </button>
-
       </div>
     `;
 
@@ -112,170 +106,94 @@ function renderPlaylist(songs) {
 }
 
 // ========================================
-// CHALLENGE 1
-// ========================================
-//
-// ADD A NEW SONG
-//
-// Students need to:
-// 1. Get values from the form.
-// 2. Validate the inputs.
-// 3. Create a song object.
-// 4. Add it to the playlist.
-// 5. Render the updated playlist.
-// 6. Clear the form.
-//
+// CHALLENGE 1: ADD A NEW SONG
 // ========================================
 
 songForm.addEventListener("submit", function (event) {
+  // Prevent page refresh
   event.preventDefault();
 
-  // 1. Get values from the form.
-  // Get the value from each input.
-  // Remove extra spaces from title and artist.
-  // ( Which already provided in below )
+  // 1. Get values from the form
   const title = songTitle.value.trim();
   const artist = songArtist.value.trim();
   const genre = songGenre.value;
 
-  // 2. Validate the inputs.
-  //
-  // If title OR artist OR genre is empty:
-  // - Show this error message:
-  //   formError.textContent = "Please complete all fields.";
-  // - Use return to stop the function.
-  //
-  // If validation passes:
-  // - Clear the error message.
-  // - Uncomment the code below.
-  // formError.textContent = "";
+  // 2. Validate the inputs
+  if (title === "" || artist === "" || genre === "") {
+    formError.textContent = "Please complete all fields.";
+    return;
+  }
 
-  // 3. Create a song object.
-  //
-  // Use the starter object below.
-  // Add the necessary properties using the values above.
-  //
-  // const newSong = {
-  //   id: Date.now(),
-  // };
+  // Clear error message
+  formError.textContent = "";
 
-  // 4. Add the new song to the playlist.
-  //
-  // Use the spread operator to create a new array.
-  //
-  // Example:
-  // playlist = [...playlist, newSong];
+  // 3. Create a song object
+  const newSong = {
+    id: Date.now(),
+    title: title,
+    artist: artist,
+    genre: genre,
+  };
 
-  // 5. Render the updated playlist.
-  //
-  // Uncomment the code below.
-  //
-  // renderPlaylist(playlist);
+  // 4. Add the new song to the playlist
+  playlist = [...playlist, newSong];
 
-  // 6. Clear the form.
-  //
-  // Uncomment the code below.
-  //
-  // songForm.reset();
+  // 5. Render the updated playlist
+  renderPlaylist(playlist);
+
+  // 6. Clear the form
+  songForm.reset();
 });
 
 // ========================================
-// CHALLENGE 2
-// ========================================
-//
-// SEARCH SONGS (Playlists)
-//
-// Students need to:
-// 1. Get the search text.
-// 2. Filter the playlist.
-// 3. Search by title OR artist.
-// 4. Display the filtered songs.
-//
+// CHALLENGE 2: SEARCH SONGS
 // ========================================
 
 searchInput.addEventListener("input", function () {
-  // 1. Get the search text.
-  //
-  // Get the value from the search input.
-  // Convert it to lowercase and remove extra spaces.
-
+  // 1. Get the search text
   const searchText = searchInput.value.toLowerCase().trim();
 
-  // 2. Filter the playlist.
-  //
-  // Create a new variable called filteredSongs.
-  // Use filter() to create a new array from playlist.
+  // 2. Filter the playlist
+  const filteredSongs = playlist.filter(function (song) {
+    // 3. Search by title OR artist
+    const title = song.title.toLowerCase();
+    const artist = song.artist.toLowerCase();
 
-  // 3. Search by title OR artist.
-  //
-  // Inside filter():
-  // - Convert playlist.title to lowercase.
-  // - Convert playlist.artist to lowercase.
-  // - Check if searchText is included in the title OR artist.
-  //
-  // Hint:
-  // Use includes()
-  //
-  // Example structure:
-  //
-  // const filteredSongs = playlist.filter(function (song) {
-  //
-  //   const title = song.title.toLowerCase();
-  //   const artist = song.artist.toLowerCase();
-  //
-  //   return __________________________;
-  //
-  // });
+    return (
+      title.includes(searchText) ||
+      artist.includes(searchText)
+    );
+  });
 
-  // 4. Display the filtered songs.
-  //
-  // Uncomment the code below.
-  //
-  // renderPlaylist(filteredSongs);
+  // 4. Display the filtered songs
+  renderPlaylist(filteredSongs);
 });
 
 // ========================================
-// CHALLENGE 3
-// ========================================
-//
-// REMOVE A SONG
-//
-// Students need to:
-// 1. Receive the song ID.
-// 2. Filter the playlist by ID.
-// 3. Keep every song except the selected song.
-// 4. Update the playlist.
-// 5. Render the playlist again.
-//
+// CHALLENGE 3: REMOVE A SONG
 // ========================================
 
 function removeSong(songId) {
-  // 1. Receive the song ID.
-  //
-  // songId is already provided as a function parameter.
-  // Use it to identify the song that should be removed.
-  // 2. Filter the playlist by ID.
-  //
-  // Create a new playlist using filter().
-  //
-  // Keep the songs whose ID is NOT equal to songId.
-  //
-  // Example structure:
-  //
-  // playlist = playlist.filter(function (song) {
-  //
-  //   return __________________________;
-  //
-  // });
-  // 3. Update the playlist.
-  //
-  // The playlist variable should now contain
-  // the updated array.
-  // 4. Render the playlist again.
-  //
-  // Uncomment the code below.
-  //
-  // renderPlaylist(playlist);
+  // 1. Filter the playlist
+  playlist = playlist.filter(function (song) {
+    return song.id !== songId;
+  });
+
+  // 2. Display the updated playlist
+  // Keep the current search results if searching
+  const searchText = searchInput.value.toLowerCase().trim();
+
+  const filteredSongs = playlist.filter(function (song) {
+    const title = song.title.toLowerCase();
+    const artist = song.artist.toLowerCase();
+
+    return (
+      title.includes(searchText) ||
+      artist.includes(searchText)
+    );
+  });
+
+  renderPlaylist(filteredSongs);
 }
 
 // ========================================
